@@ -173,6 +173,7 @@ class _LoginBodyState extends State<LoginBody> {
                     BlocBuilder<LoginCubit, LoginState>(
                       builder: (context, state){
                         return AppButton(
+                          isLoading: (state is LoginLoading),
                           text: 'Sign In',
                           onPressed: _onSignIn,
                         );
