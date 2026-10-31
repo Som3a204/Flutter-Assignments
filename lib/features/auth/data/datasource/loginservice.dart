@@ -1,3 +1,5 @@
+import 'package:e_commerce/core/services/service_locator.dart';
+
 import '../../../../core/network/api_endpoints.dart';
 import '../../../../core/network/api_exceptions.dart';
 import '../../../../core/network/dio_client.dart';
@@ -9,9 +11,8 @@ import '../models/user_model.dart';
 /// transparently refreshes tokens, and turns every [DioException] into an
 /// [ApiException]. This class only knows how to call the endpoints.
 class LoginService {
-  final DioClient _dioClient;
-
-  LoginService({required DioClient dioClient}) : _dioClient = dioClient;
+get _dioClient => getIt<DioClient>();
+  LoginService();
 
   /// Authenticates with the API and returns the raw JSON payload.
   ///

@@ -16,6 +16,7 @@ typedef OnTokenRefreshedCallback = void Function(
 /// when encountering a 401 Unauthorized response.
 class AuthInterceptor extends QueuedInterceptor {
   final TokenStorage tokenStorage;
+  
 
   /// Bare Dio (no interceptors) used only to hit the refresh endpoint, so the
   /// refresh call can never recursively trigger this interceptor.

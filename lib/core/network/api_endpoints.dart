@@ -12,6 +12,21 @@ class ApiEndpoints {
   // Products Endpoints
   static const String products = 'products';
   static const String categories = 'products/categories';
+  // Get product by ID
+  static String productById(int id) => 'products/$id';
+  // `GET products/category/{category}`
+  static String productsByCategory(String category) =>
+      'products/category/${Uri.encodeComponent(category)}';
+  // Image generator: https://dummyjson.com/image/SIZE/BACKGROUND/COLOR
+  static String generatedImage({
+    required int width,
+    required int height,
+    required String backgroundHex,
+    String? textHex,
+  }) {
+    final text = textHex ?? backgroundHex;
+    return '${baseUrl}image/${width}x$height/$backgroundHex/$text';
+  }
 
   // Users & Carts
   static const String users = 'users';

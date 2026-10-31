@@ -1,16 +1,19 @@
 import 'package:dio/dio.dart';
-import 'package:e_commerce/features/auth/presentation/views/cubit/login_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/data/datasource/loginservice.dart';
 import '../../features/auth/data/repositories/auth_repository.dart';
 import '../../features/auth/data/repositories/auth_repository_impl.dart';
+import '../../features/products/data/datasources/products_api_datasource.dart';
+import '../../features/products/data/repositories/products_repository.dart';
+import '../../features/products/data/repositories/products_repository_impl.dart';
 import '../network/api_endpoints.dart';
 import '../network/dio_client.dart';
 import '../network/token_storage.dart';
 
 /// Global service locator instance.
+///  pattern singleton ===== dioclent // login//
 final getIt = GetIt.instance;
 
 /// Registers the network stack and feature services.
@@ -55,7 +58,7 @@ Future<void> configureDependencies() async {
   // --- Feature: Auth ------------------------------------------------------
 
   getIt.registerLazySingleton<LoginService>(
-    () => LoginService(dioClient: getIt<DioClient>()),
+    () => LoginService(),
   );
 
   getIt.registerLazySingleton<AuthRepository>(
@@ -64,7 +67,16 @@ Future<void> configureDependencies() async {
       tokenStorage: getIt<TokenStorage>(),
     ),
   );
-  getIt.registerFactory<LoginCubit>(
-      () => LoginCubit(getIt<AuthRepository>())
+
+  // --- Feature: Products --------------------------------------------------
+
+  getIt.registerLazySingleton<ProductsApiDatasource>(
+    () => ProductsApiDatasource(),
   );
+
+  getIt.registerLazySingleton<ProductsRepository>(
+    () => ProductsRepositoryImpl(datasource: getIt<ProductsApiDatasource>()),
+  );
+
+  
 }

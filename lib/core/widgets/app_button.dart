@@ -23,7 +23,7 @@ class AppButton extends StatelessWidget {
       width: double.infinity,
       height: 57,
       child: ElevatedButton(
-        onPressed: isLoading ? () => null : onPressed,
+        onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: isOutline ? Colors.transparent : AppColors.primary,
           foregroundColor: isOutline ? AppColors.textSecondary : Colors.white,

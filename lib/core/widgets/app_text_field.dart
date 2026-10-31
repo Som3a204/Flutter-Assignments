@@ -11,6 +11,8 @@ class AppTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final VoidCallback? onSuffixPressed;
+    final String? Function(String?)? validator;
+
 
   const AppTextField({
     super.key,
@@ -21,12 +23,14 @@ class AppTextField extends StatelessWidget {
     this.controller,
     this.keyboardType,
     this.textInputAction,
-    this.onSuffixPressed,
+    this.onSuffixPressed, this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      validator: validator,
+
       controller: controller,
       keyboardType: keyboardType,
       textInputAction: textInputAction,
