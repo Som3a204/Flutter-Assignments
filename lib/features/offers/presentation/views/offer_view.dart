@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/responsive/responsive_context.dart';
+import '../../../../core/router/app_routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_screen_bar.dart';
 import '../../../products/presentation/utils/sample_products.dart';
@@ -8,10 +10,7 @@ import '../../../products/presentation/widgets/products_grid.dart';
 import '../widgets/flash_sale_banner.dart';
 
 class OfferView extends StatelessWidget {
-
-  final VoidCallback? onBack;
-
-  const OfferView({super.key, this.onBack});
+  const OfferView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,7 @@ class OfferView extends StatelessWidget {
     return Scaffold(
       appBar: AppScreenBar(
         title: 'Super Flash Sale',
-        onBack: onBack,
+        onBack: () => context.go(AppRoutes.home),
         actions: [
           IconButton(
             icon: const Icon(Icons.search, color: AppColors.textSecondary),
@@ -42,6 +41,8 @@ class OfferView extends StatelessWidget {
           ),
           ProductsGrid(
             products: sampleProducts,
+            // Sample Data
+            onProductTap: (_) {},
           ),
           SliverToBoxAdapter(child: SizedBox(height: spacing.lg)),
         ],

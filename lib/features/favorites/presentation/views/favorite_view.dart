@@ -10,9 +10,6 @@ import '../../../products/presentation/widgets/products_grid.dart';
 class FavoriteView extends StatefulWidget {
   const FavoriteView({super.key});
 
-  static Route<void> route() =>
-      MaterialPageRoute<void>(builder: (_) => const FavoriteView());
-
   @override
   State<FavoriteView> createState() => _FavoriteViewState();
 }
@@ -33,17 +30,18 @@ class _FavoriteViewState extends State<FavoriteView> {
       body: _favorites.isEmpty
           ? const _EmptyFavorites()
           : CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(child: SizedBox(height: spacing.md)),
-                ProductsGrid(
-                  //Sample Data
-                  products: _favorites,
-                  actionBuilder: (product) =>
-                      _RemoveButton(onPressed: () => _remove(product)),
-                ),
-                SliverToBoxAdapter(child: SizedBox(height: spacing.lg)),
-              ],
-            ),
+        slivers: [
+          SliverToBoxAdapter(child: SizedBox(height: spacing.md)),
+          ProductsGrid(
+            products: _favorites,
+            // Sample Data
+            onProductTap: (_) {},
+            actionBuilder: (product) =>
+                _RemoveButton(onPressed: () => _remove(product)),
+          ),
+          SliverToBoxAdapter(child: SizedBox(height: spacing.lg)),
+        ],
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:e_commerce/core/router/navigation_extensions.dart';
 import 'package:flutter/material.dart';
 
 import '../responsive/responsive_context.dart';
@@ -28,7 +29,7 @@ class AppScreenBar extends StatelessWidget implements PreferredSizeWidget {
           size: 20,
           color: AppColors.textSecondary,
         ),
-        onPressed: onBack ?? () => Navigator.of(context).maybePop(),
+        onPressed: onBack ??  context.popOrGoHome,
       ),
       title: Text(
         title,

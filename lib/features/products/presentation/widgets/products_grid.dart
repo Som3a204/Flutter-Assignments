@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/responsive/responsive_context.dart';
+import '../../../../core/router/app_routes.dart';
 import '../../data/models/product_model.dart';
-import '../views/product_details_view.dart';
 import 'product_card.dart';
 
 class ProductsGrid extends StatelessWidget {
@@ -49,8 +50,7 @@ class ProductsGrid extends StatelessWidget {
                 if (handler != null) {
                   handler(product);
                 } else {
-                  Navigator.of(context)
-                      .push(ProductDetailsView.route(product.id));
+                  context.push(AppRoutes.productPath(product.id));
                 }
               },
             );

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:e_commerce/core/router/auth_notifier.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,11 +48,14 @@ Future<void> configureDependencies() async {
     ),
   );
 
+  getIt.registerLazySingleton<AuthNotifier>(() => AuthNotifier());
+
   // DioClient owns auth-header injection, token refresh and ApiException mapping.
   getIt.registerLazySingleton<DioClient>(
     () => DioClient(
       dio: getIt<Dio>(),
       tokenStorage: getIt<TokenStorage>(),
+      onUnauthorized: () => getIt<AuthNotifier>().markLoggedOut(),
     ),
   );
 

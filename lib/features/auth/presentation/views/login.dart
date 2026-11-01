@@ -1,7 +1,7 @@
 import 'package:e_commerce/core/network/api_exceptions.dart';
+import 'package:e_commerce/core/router/auth_notifier.dart';
 import 'package:e_commerce/core/services/service_locator.dart';
 import 'package:e_commerce/features/auth/data/repositories/auth_repository.dart';
-import 'package:e_commerce/features/products/presentation/views/products_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_colors.dart';
@@ -43,9 +43,7 @@ class _LoginViewState extends State<LoginView> {
       );
 
       if (!mounted) return;
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const ProductsView()),
-      );
+      getIt<AuthNotifier>().markLoggedIn();
     } on ApiException catch (error) {
       if (!mounted) return;
       ScaffoldMessenger.of(context)

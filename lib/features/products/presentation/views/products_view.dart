@@ -1,10 +1,11 @@
-import 'package:e_commerce/features/favorites/presentation/views/favorite_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/responsive/responsive_context.dart';
+import '../../../../core/router/app_routes.dart';
 import '../view_models/products_cubit.dart';
 import '../view_models/products_state.dart';
 import '../widgets/products_grid.dart';
@@ -55,7 +56,8 @@ class _ProductsScreen extends StatelessWidget {
                           IconButton(
                             icon: const Icon(Icons.favorite_border,
                                 color: AppColors.textSecondary),
-                            onPressed: () {Navigator.of(context).push(FavoriteView.route());},
+                            onPressed: () =>
+                                context.push(AppRoutes.favorites),
                           ),
                           IconButton(
                             icon: const Icon(Icons.notifications_none,
@@ -141,15 +143,15 @@ class _ProductsScreen extends StatelessWidget {
                 builder: (context, state) {
                   return switch (state) {
                     ProductsSuccess(:final products) =>
-                      ProductsGrid(products: products),
+                        ProductsGrid(products: products),
                     ProductsEmpty() => const ProductsEmptySliver(),
                     ProductsError(:final message) => ProductsErrorSliver(
-                        message: message,
-                        onRetry: () =>
-                            context.read<ProductsCubit>().loadProducts(),
-                      ),
+                      message: message,
+                      onRetry: () =>
+                          context.read<ProductsCubit>().loadProducts(),
+                    ),
                     ProductsLoading() || ProductsInitial() =>
-                      const ProductsLoadingSliver(),
+                    const ProductsLoadingSliver(),
                   };
                 },
               ),

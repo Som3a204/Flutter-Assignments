@@ -1,8 +1,11 @@
 import 'package:e_commerce/core/services/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/responsive/responsive_context.dart';
+import '../../../../core/router/app_routes.dart';
+import '../../../../core/router/navigation_extensions.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_button.dart';
 import '../../../../core/widgets/star_rating.dart';
@@ -21,10 +24,6 @@ class ProductDetailsView extends StatelessWidget {
   final int productId;
 
   const ProductDetailsView({super.key, required this.productId});
-
-  static Route<void> route(int productId) => MaterialPageRoute<void>(
-        builder: (_) => ProductDetailsView(productId: productId),
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -51,25 +50,25 @@ class _ProductDetailsScreen extends StatelessWidget {
           appBar: _buildAppBar(context, loaded?.product.title ?? ''),
           body: switch (state) {
             ProductDetailsLoaded loadedState =>
-              _ProductDetailsContent(state: loadedState),
+                _ProductDetailsContent(state: loadedState),
             ProductDetailsError(:final message) => _ErrorBody(
-                message: message,
-                onRetry: () => context.read<ProductDetailsCubit>().load(),
-              ),
+              message: message,
+              onRetry: () => context.read<ProductDetailsCubit>().load(),
+            ),
             ProductDetailsLoading() || ProductDetailsInitial() => const Center(
-                child: CircularProgressIndicator(color: AppColors.primary),
-              ),
+              child: CircularProgressIndicator(color: AppColors.primary),
+            ),
           },
           bottomNavigationBar: loaded == null
               ? null
               : _AddToCartBar(
-                  onPressed: () {
-                    // TODO: hook up once the cart feature exists.
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Cart is coming soon.')),
-                    );
-                  },
-                ),
+            onPressed: () {
+              // TODO: hook up once the cart feature exists.
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Cart is coming soon.')),
+              );
+            },
+          ),
         );
       },
     );
@@ -81,7 +80,7 @@ class _ProductDetailsScreen extends StatelessWidget {
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios_new,
             size: 20, color: AppColors.textSecondary),
-        onPressed: () => Navigator.of(context).maybePop(),
+        onPressed: context.popOrGoHome,
       ),
       title: Text(
         title,
@@ -175,8 +174,8 @@ class _ProductDetailsContent extends StatelessWidget {
               ),
               RelatedProductsSection(
                 products: state.relatedProducts,
-                onProductTap: (related) => Navigator.of(context)
-                    .push(ProductDetailsView.route(related.id)),
+                onProductTap: (related) =>
+                    context.push(AppRoutes.productPath(related.id)),
               ),
               SizedBox(height: spacing.lg),
             ],
